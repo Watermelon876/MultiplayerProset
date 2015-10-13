@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Multiplayer Proset</title>
+        <style>
+            @font-face {
+                font-family: "Courier";
+                font-style: normal;
+                font-weight: normal;
+            }
+
+            body {
+                background-color: #E8E8F0;
+            }
+
+            #rules {
+                position: fixed;
+                left: 220px;
+                top: 0px;
+                font-family: "Courier";
+            }
+
+            #gameButton {
+                font-family: "Courier";
+                color: #FFFFFF;
+                background-color: #353539;
+                position: fixed;
+                left: 0px;
+                top: 0px;
+                width: 200px;
+                height: 100%;
+                border-right: 3px solid #000000;
+            }
+
+            a {
+                color: inherit;
+                text-decoration: inherit;
+            }
+
+            a:hover {
+                color: #00FF00;
+            }
+
+            #newGame {
+                background-color: #B8C1CD;
+                cursor: pointer;
+            }
+
+            #newGame:hover {
+                color: #00FF00;
+            }
+
+            ul
+            {
+                list-style-type: none;
+                padding:0;
+                margin:0;
+            }
+            
+            li
+            {
+                font-family: "Courier";
+                margin: 0 0 5px 0;
+            }
+            li:nth-child(odd) {            
+                background-color: #B8C1CD;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id = "gameButton">
+            <br>
+            <p id="newGame">Create new game</p>
+            <p>Or join an existing game:</p>
+            <div id="listbox">
+                <ul id="gamesList">
+                </ul>
+            </div>
+        </div>
+        <div id="rules">
+            <p> Welcome to Multiplayer Proset. On the left, you can start a new game or join an existing game.</p>
+            <p>Upon joining a game, you will be presented with a tableau of seven cards. The goal of the game is to get a set of cards with an even number of each color. This set is called a proset.</p>
+            <p>In a set of 7 cards, there is guaranteed to be at least one proset. However there sometimes might be more than one. Larger prosets give you more points, so try to get the largest possible.</p>
+            <p>The game ends when there are less than 7 cards left on the table. Because of the way the proset deck works, the last cards will always form a proset and it is unfair to grant it to anyone.</p>
+        <div>
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script type="text/javascript">
+            var createNewGame = function() {
+                var gameName = prompt("Please enter new game name", "");
+                if(gameName != null) {
+                    window.location.href=gameName;
+                }
+            };
+
+            document.getElementById("newGame").addEventListener('click', createNewGame);
+
+            var socket=io();
+            var recievedGamesList = false;
+
+            socket.emit('get games');
+            socket.on('game list', function(list) {
+                var oldList = document.getElementById("gamesList");
+                //var newList = document.createElement("UL");
+                //newList.id = "gamesList";
+                
+                if(recievedGamesList) {
+                    return;
+                }
+                recievedGamesList = true;
+
+                if(list.length == 0) {
+                    var listText = document.createTextNode("There are no current games being played. Start a new one!");
+                    var listElement = document.createElement('LI');
+                    listElement.appendChild(listText);
+                    listElement.addEventListener('click', createNewGame);
+                }
+
+                for(var i = 0; i < list.length; i++) {
+                    var gameID = list[i];
+
+                    var listElement = document.createElement('LI');
+                    var link = document.createElement('a');
+                    var linkText = document.createTextNode(gameID);
+
+                    link.title = "game "+gameID;
+                    link.href = "http://multiplayerproset.com/"+gameID;
+
+                    listElement.appendChild(link);
+                    link.appendChild(linkText);
+
+                    //newList.appendChild(listElement);
+                    oldList.appendChild(listElement);
+                }
+                //var listBox = oldList.parentNode;
+                //listBox.replaceChild(oldList, newList);
+            });
+
+           
+        </script>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-66329787-1', 'auto');
+          ga('send', 'pageview');
+
+</script>
+    </body>
+
+</html>
