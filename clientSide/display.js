@@ -112,7 +112,7 @@ var update = function (time) {
             }
         }
 
-        if((selection.length > 0) && (guessTimer == 0)) {
+        if((selection.length > 0) && (guessTimer == 0) && gameInProgress) {
             guessTimer = 50;
             socket.emit("guess", [selection, turnNumber]);
             tableauSelections = [false,false,false,false,false,false,false];
@@ -138,7 +138,7 @@ var draw = function () {
     }
     
     for(var i = 0; i < tableau.length; i++) {
-        if(tableauSelections[i]) {
+        if(tableauSelections[i] && gameInProgress) {
             selectedImage.drawImageAtXY(context, (TABLEAU_LOCATIONS[i]).x, (TABLEAU_LOCATIONS[i]).y);
         }
         
