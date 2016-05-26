@@ -5,7 +5,7 @@ function loadedImage(filename) {
     this.image.onload = function () {
         that.isLoaded = true;
     };
-    this.image.src = filename;
+    this.image.src = '/images/'+filename;
 }
 
 loadedImage.prototype = {
@@ -28,6 +28,36 @@ var doubleClickOccured = false;
 var guessTimer = 0;
 var playerNumber = 0;
 var turnNumber = 0;
+
+//updates title of webpage depending on variables
+
+var updateOccuredInBackground = false;
+var inFocus = true;
+var numberPlayers = 1;
+
+//Tells whether window is focused
+function onFocus() {
+    inFocus = true;
+}
+function onBlur() {
+    inFocus = false;
+}
+
+if (/*@cc_on!@*/false) { // check for Internet Explorer
+        document.onfocusin = onFocus;
+        document.onfocusout = onBlur;
+    } else {
+        window.onfocus = onFocus;
+        window.onblur = onBlur;
+    }
+
+function updateTitle() {
+    var titleString = ID+' ('+numberPlayers+')';
+    if(updateOccuredInBackground) {
+        titleString = "*!~"+titleString+"~!*";
+    }
+    document.title = titleString;
+}
 
 var gameInProgress = true;
 
@@ -123,8 +153,9 @@ var update = function (time) {
     
     if(guessTimer > 0) {
         guessTimer--;
-    }
+    }  
     
+    updateTitle();
 }
 
 var draw = function () {
@@ -202,6 +233,10 @@ socket.on("update", function(gameData){
         turnNumber = newTurnNumber;
         tableauSelections = [false,false,false,false,false,false,false];
     }
+
+    if(!inFocus) {
+        updateOccuredInBackground = true;
+    }
 });
 
 socket.on("game over", function() {
@@ -240,6 +275,10 @@ function updateScoreboard(playerList) {
     }   
     var scoreboardDiv = document.getElementById("scoreboard");
     scoreboardDiv.replaceChild(scoreboard, oldScoreboard);
+    
+    if(playerList.length) {
+        numberPlayers = playerList.length;
+    }
 }
 
 socket.on("chat message", function(msgData){
@@ -268,6 +307,10 @@ socket.on("chat message", function(msgData){
     messageNode.appendChild(messageText);
 
     document.getElementById("messages").appendChild(messageNode);
+
+    if(!inFocus) {
+        updateOccuredInBackground = true;
+    }
 });
 
 document.getElementById("messagebox").onsubmit=function(e) {

@@ -2,96 +2,15 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Multiplayer Proset</title>
-		<style>
-            @font-face {
-                font-family: "Courier";
-                font-style: normal;
-                font-weight: normal;
-            }
-            body {
-                background-color: #E8E8F0;
-            }
-
-            .main {
-                position: relative;
-                float: left;
-            }
-            .header {
-                margin-left: auto;
-                margin-right: auto;
-                width: 200px;
-            }
-
-            a {
-                color: initial;
-                text-decoration: initial;
-            }
-
-            div.fixinner {
-                margin-left: auto;
-                margin-right: auto;
-                width: 866px;
-            }
-            
-            #scoreboard {
-                width: 200px;
-                height: 654px;
-                overflow: auto;
-            }
-            #game {
-                width: 466px;
-            }
-            #messagelist {
-                width: 200px;
-                height: 654px;
-                overflow: auto;
-            }
-            #playerNumber {
-                float: left;
-            }
-
-            div.chat {
-                font-family: "Courier";
-                color: #FFFFFF;
-                text-align: center;
-                text-transform: capitalize;
-                text-shadow: 0px 1px #000000;
-                position: fixed;
-                left: 0px;
-                bottom: 0px;
-                width: 100%;
-                padding-top: 5px;
-                padding-bottom: 15px;
-                border-top: 3px solid #000000;
-                background-color: #353539;
-            }
-
-            ul
-            {
-                list-style-type: none;
-                padding:0;
-                margin:0;
-            }
-            
-            li
-            {
-                font-family: "Courier";
-                margin: 0 0 5px 0;
-            }
-            li:nth-child(odd) {            
-                background-color: #B8C1CD;
-            }
-		</style>
-		<link rel="icon" type="image/png" href="icon.png" />
+		<title>Proset Game</title>
+		<link rel="stylesheet" href="/css/gameSheet.css">
+		<link rel="icon" type="image/png" href="/images/icon.png" />
 	</head>
 	<body>
 	    <div id = "header">
-	    <h1>
 	        <a href="/">
-	            <img src="logo.png">
+	            <img src="/images/logo.png">
 	        </a>
-	    </h1>
 	    </div>
 	    <div class="fixinner">
 	        <div class = "main" id = "scoreboard">
@@ -112,7 +31,7 @@
 	        </form>
 	    </div>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-        <script src="display.js"></script>
+        <script src="/js/display.js"></script>
         <script>
         <!-- This contains the relevant google analytics code-->
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

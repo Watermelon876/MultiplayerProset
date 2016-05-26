@@ -1,0 +1,74 @@
+@font-face {
+    font-family: "Courier";
+    font-style: normal;
+    font-weight: normal;
+}
+body {
+    background-color: #E8E8F0;
+}
+
+.main {
+    position: relative;
+    float: left;
+}
+
+div.header {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+}
+
+div.fixinner {
+    margin-left: auto;
+    margin-right: auto;
+    width: 866px;
+}
+
+#scoreboard {
+    width: 200px;
+    height: 654px;
+    overflow: auto;
+}
+#game {
+    width: 466px;
+}
+#messagelist {
+    width: 200px;
+    height: 654px;
+    overflow: auto;
+}
+#playerNumber {
+    float: left;
+}
+
+div.chat {
+    font-family: "Courier";
+    color: #FFFFFF;
+    text-align: center;
+    text-transform: capitalize;
+    text-shadow: 0px 1px #000000;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    border-top: 3px solid #000000;
+    background-color: #353539;
+}
+
+ul
+{
+    list-style-type: none;
+    padding:0;
+    margin:0;
+}
+
+li
+{
+    font-family: "Courier";
+    margin: 0 0 5px 0;
+}
+li:nth-child(odd) {            
+    background-color: #B8C1CD;
+}
