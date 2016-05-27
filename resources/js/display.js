@@ -1,3 +1,4 @@
+//Class wraps around Image class to prevent drawing nonloaded image
 function loadedImage(filename) {
     this.isLoaded = false;
     this.image = new Image();
@@ -16,6 +17,7 @@ loadedImage.prototype = {
     }
 };
 
+//Sets up canvas for drawing
 var canvas = document.createElement("canvas");
 var context = canvas.getContext("2d");
 canvas.width = 466;
@@ -30,7 +32,6 @@ var playerNumber = 0;
 var turnNumber = 0;
 
 //updates title of webpage depending on variables
-
 var updateOccuredInBackground = false;
 var inFocus = true;
 var numberPlayers = 1;
@@ -38,6 +39,7 @@ var numberPlayers = 1;
 //Tells whether window is focused
 function onFocus() {
     inFocus = true;
+    updateOccuredInBackground = false;
 }
 function onBlur() {
     inFocus = false;

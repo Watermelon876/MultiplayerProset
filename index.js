@@ -139,7 +139,12 @@ function ProsetDeck() {
     };
     
     this.NextCard = function() {
-        return deck_.pop();
+        if(deck_.length_ > 0) {
+            return deck_.pop();
+        }
+        else{
+            return undefined;
+        }
     };
 
     this.isEmpty = function() {
@@ -219,11 +224,11 @@ function ProsetGame(gameID) {
     
         console.log(playerList_);
         console.log(scoreList_);
-        /*
+        
         if(turnNumber_!=turnNumber) {
             return;
         }
-        */
+        
         console.log(that_.cardsInPlay);
 
         if(ValidateProset_(cardIDs)) {
@@ -231,6 +236,9 @@ function ProsetGame(gameID) {
             turnNumber_++;
             (scoreList_[playerID])[1]+=cardIDs.length;
             io.to(that_.ID()).emit("chat message",[0, "Player "+(scoreList_[playerID])[0]+" got a proset of size "+cardIDs.length]);
+            if(gameOver_) {
+                io.to(that_.ID()).emit("game over");;
+            }
             that_.update(io);
         } else {
             io.to(socketID).emit("chat message",[0, "Wrong guess! Try again."]);
