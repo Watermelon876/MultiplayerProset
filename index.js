@@ -139,16 +139,16 @@ function ProsetDeck() {
     };
     
     this.NextCard = function() {
-        if(deck_.length > 0) {
+        //if(deck_.length_ > 0) {
             return deck_.pop();
-        }
+        /*}
         else{
             return undefined;
-        }
+        }*/
     };
 
     this.isEmpty = function() {
-        return deck_.length==0;
+        return deck_.length_<=0;
     };
     
     this.GenerateNewDeck();
@@ -226,12 +226,10 @@ function ProsetGame(gameID) {
         console.log(playerList_);
         console.log(scoreList_);
         
-        /*
         if(turnNumber_!=turnNumber) {
             return;
         }
-        */
-
+        
         console.log(that_.cardsInPlay);
 
         if(ValidateProset_(cardIDs)) {
