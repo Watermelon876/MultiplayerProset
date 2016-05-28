@@ -107,7 +107,7 @@ http.listen(80, function(){
 
 //This provides a class for a ProsetDeck
 function ProsetDeck() {
-    this.NUM_CARDS = 63; 
+    this.NUM_CARDS = 15; 
     var that_ = this;
     var deck_ = new Array(that_.NUM_CARDS);
 
@@ -139,16 +139,16 @@ function ProsetDeck() {
     };
     
     this.NextCard = function() {
-        if(deck_.length_ > 0) {
+        //if(deck_.length_ > 0) {
             return deck_.pop();
-        }
+        /*}
         else{
             return undefined;
-        }
+        }*/
     };
 
     this.isEmpty = function() {
-        return deck_.length_==0;
+        return deck_.length_<=0;
     };
     
     this.GenerateNewDeck();
@@ -175,6 +175,7 @@ function ProsetGame(gameID) {
 
     var ReplaceCard_ = function(cardID) {
         if(gameDeck_.isEmpty()) {
+            console.log('out of cards');
             gameOver_ = true;
         } else { 
             that_.cardsInPlay[cardID] = gameDeck_.NextCard();
