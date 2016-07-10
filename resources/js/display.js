@@ -52,7 +52,6 @@ if (/*@cc_on!@*/false) { // check for Internet Explorer
         window.onfocus = onFocus;
         window.onblur = onBlur;
     }
-}
 
 function updateTitle() {
     var titleString = ID+' ('+numberPlayers+')';
