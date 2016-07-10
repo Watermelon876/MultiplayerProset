@@ -52,6 +52,7 @@ if (/*@cc_on!@*/false) { // check for Internet Explorer
         window.onfocus = onFocus;
         window.onblur = onBlur;
     }
+}
 
 function updateTitle() {
     var titleString = ID+' ('+numberPlayers+')';
@@ -171,14 +172,15 @@ var draw = function () {
     }
     
     for(var i = 0; i < tableau.length; i++) {
-        if(tableauSelections[i] && gameInProgress) {
-            selectedImage.drawImageAtXY(context, (TABLEAU_LOCATIONS[i]).x, (TABLEAU_LOCATIONS[i]).y);
+        if(tableau[i] != null) {
+            if(tableauSelections[i] && gameInProgress) {
+                selectedImage.drawImageAtXY(context, (TABLEAU_LOCATIONS[i]).x, (TABLEAU_LOCATIONS[i]).y);
+            }
+            
+            if(pointInsideCard(TABLEAU_LOCATIONS[i], relativeMousePosition)) {
+                hoverImage.drawImageAtXY(context, (TABLEAU_LOCATIONS[i]).x, (TABLEAU_LOCATIONS[i]).y); 
+            }
         }
-        
-        if(pointInsideCard(TABLEAU_LOCATIONS[i], relativeMousePosition)) {
-            hoverImage.drawImageAtXY(context, (TABLEAU_LOCATIONS[i]).x, (TABLEAU_LOCATIONS[i]).y); 
-        }
-        
     }
 
     if(guessTimer > 0) {
