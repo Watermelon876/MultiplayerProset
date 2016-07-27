@@ -7,7 +7,6 @@ var opengames=[];
 var allsockets={};
 
 app.use(express.static(__dirname+"/resources"));
-app.use(express.static(__dirname+"/clientSide"));
 
 app.get('/', function(req,res) {
     res.sendFile(__dirname+'/start.html');
@@ -107,7 +106,7 @@ http.listen(80, function(){
 
 //This provides a class for a ProsetDeck
 function ProsetDeck() {
-    this.NUM_CARDS = 15; 
+    this.NUM_CARDS = 63; 
     var that_ = this;
     var deck_ = new Array(that_.NUM_CARDS);
 
@@ -148,7 +147,7 @@ function ProsetDeck() {
     };
 
     this.isEmpty = function() {
-        return deck_.length_<=0;
+        return deck_.length==0;
     };
     
     this.GenerateNewDeck();
