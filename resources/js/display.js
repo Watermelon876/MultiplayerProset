@@ -10,9 +10,17 @@ function loadedImage(filename) {
 }
 
 loadedImage.prototype = {
-    drawImageAtXY: function(context, x, y) {
+    drawImageAtXY: function(context, x, y, scale) {
         if(this.isLoaded) {
-            context.drawImage(this.image, x, y);
+            if(!scale){
+                context.drawImage(this.image, x, y);
+            }
+            else {
+                var defaultWidth = this.image.width;
+                var defaultHeight = this.image.height;
+
+                context.drawImage(this.image, x, y, Math.round(defaultWidth*scale), Math.round(defaultHeight*scale));
+            }
         }
     }
 };
@@ -20,8 +28,15 @@ loadedImage.prototype = {
 //Sets up canvas for drawing
 var canvas = document.createElement("canvas");
 var context = canvas.getContext("2d");
-canvas.width = 466;
-canvas.height = 754;
+var defaultWidth = 466;
+var defaultHeight = 754;
+
+adjustedDefaultHeight = 100+defaultHeight+100;
+
+var scale = (1.0*window.innerHeight)/adjustedDefaultHeight;
+
+canvas.width = Math.min(Math.round(defaultWidth*scale),defaultWidth);
+canvas.height = Math.min(Math.round(defaultHeight*scale),defaultHeight);
 document.getElementById("game").appendChild(canvas);
 
 var relativeMousePosition = {x:0, y:0};
@@ -56,7 +71,7 @@ if (/*@cc_on!@*/false) { // check for Internet Explorer
 function updateTitle() {
     var titleString = ID+' ('+numberPlayers+')';
     if(updateOccuredInBackground) {
-        titleString = "*!~"+titleString+"~!*";
+        titleString = "*"+titleString+"*";
     }
     document.title = titleString;
 }
@@ -66,8 +81,8 @@ var gameInProgress = true;
 function getMousePos(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
     return {
-        x: Math.round((evt.clientX-rect.left)/(rect.right-rect.left)*canvas.width),
-        y: Math.round((evt.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height)
+        x: Math.round((evt.clientX-rect.left)/(rect.right-rect.left)*defaultWidth),
+        y: Math.round((evt.clientY-rect.top)/(rect.bottom-rect.top)*defaultHeight)
     };
 }
 function pointInsideCard(cardPosition, point) {
@@ -162,33 +177,34 @@ var update = function (time) {
 
 var draw = function () {
     context.clearRect(0,0,canvas.width, canvas.height);
+    currentScale = (1.0*canvas.width)/(defaultWidth);
 
     for(var i = 0; i < tableau.length; i++) {
         var cardID = CARD_IMAGE_LIBRARY[tableau[i]];
         if(cardID) {
-            (cardID).drawImageAtXY(context, (TABLEAU_LOCATIONS[i]).x, (TABLEAU_LOCATIONS[i]).y);
+            (cardID).drawImageAtXY(context, Math.round((TABLEAU_LOCATIONS[i]).x*currentScale), Math.round((TABLEAU_LOCATIONS[i]).y*currentScale), currentScale);
         }
     }
     
     for(var i = 0; i < tableau.length; i++) {
         if(tableau[i] != null) {
             if(tableauSelections[i] && gameInProgress) {
-                selectedImage.drawImageAtXY(context, (TABLEAU_LOCATIONS[i]).x, (TABLEAU_LOCATIONS[i]).y);
+                selectedImage.drawImageAtXY(context, Math.round((TABLEAU_LOCATIONS[i]).x*currentScale), Math.round((TABLEAU_LOCATIONS[i]).y*currentScale), currentScale);
             }
             
             if(pointInsideCard(TABLEAU_LOCATIONS[i], relativeMousePosition)) {
-                hoverImage.drawImageAtXY(context, (TABLEAU_LOCATIONS[i]).x, (TABLEAU_LOCATIONS[i]).y); 
+                hoverImage.drawImageAtXY(context, Math.round((TABLEAU_LOCATIONS[i]).x*currentScale), Math.round((TABLEAU_LOCATIONS[i]).y*currentScale), currentScale); 
             }
         }
     }
 
     if(guessTimer > 0) {
-        invalidGuessButton.drawImageAtXY(context, 0, 654);
+        invalidGuessButton.drawImageAtXY(context, 0, Math.round(654*currentScale), currentScale);
     } else {
         if(relativeMousePosition.y > 654) {
-            highlightedGuessButton.drawImageAtXY(context, 0, 654);
+            highlightedGuessButton.drawImageAtXY(context, 0, Math.round(654*currentScale), currentScale);
         } else {
-            guessButton.drawImageAtXY(context, 0, 654);
+            guessButton.drawImageAtXY(context, 0, Math.round(654*currentScale), currentScale);
         }
     }
 }
